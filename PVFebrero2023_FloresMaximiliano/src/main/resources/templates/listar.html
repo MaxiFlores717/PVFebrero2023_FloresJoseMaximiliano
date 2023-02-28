@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="layout/layout :: head">
+</head>
+<body>
+	<header th:replace="layout/layout :: header"></header>
+
+	<div class="container py-4">
+
+		<div class="card">
+			<div class="card-header" th:text=${titulo}></div>
+			<div class="card-body">
+
+
+				<h4 class="card-title">
+					<a class="btn btn-primary" th:href="@{/form}">Crear usuarios</a>
+				</h4>
+				<table class="table table-striped">
+					<thead>
+						<!-- columnas -->
+						<tr>
+							<th>DNI</th>
+							<th>Nombre</th>
+							<th>Apellido</th>
+							<th>Fecha de Nacimiento</th>
+							<th>Tipo de usuario</th>
+							<th>Nacionalidad</th>
+							<th>Modificar</th>
+							<th>Eliminar</th>
+						</tr>
+					</thead>
+					<tbody>
+						<!-- filas -->
+						<tr th:each="usuario: ${usuarios}">
+							<td th:text="${usuario.DNI}"></td>
+							<td th:text="${usuario.nombre}"></td>
+							<td th:text="${usuario.apellido}"></td>
+							<td th:text="${usuario.FechaDeNacimiento}"></td>
+							<td th:text="${usuario.nacionalidad}"></td>
+							<td th:text="${usuario.tipoUsuario}"></td>
+							<td><a class="btn btn-success"
+								th:href="@{/form/} + ${usuario.DNI}">Modificar</a></td>
+							<td><a class="btn btn-danger"
+								th:href="@{/eliminar/} + ${usuario.DNI}"
+								onclick="return confirm('Estás seguro que quieres eliminar este usuario?');">Eliminar</a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>
