@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="https://www.thymeleaf.org">
+<head th:replace="layout/layout :: head">
+<title>Inicio</title>
+</head>
+<body>
+	<header th:replace="layout/layout :: header"></header>
+	<div class="container py-4">
+
+		<div class="card border-primary text-center">
+
+			<div class="card-header">Bienvenido al hotel huesped!! Le deseamos una buena estadía!!</div>
+			
+			<div class="card-body">
+ 			<img th:src="@{/img/bienvenido.png}" alt="logo app"/>
+			</div>
+		</div>
+	</div>
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+
+</html>

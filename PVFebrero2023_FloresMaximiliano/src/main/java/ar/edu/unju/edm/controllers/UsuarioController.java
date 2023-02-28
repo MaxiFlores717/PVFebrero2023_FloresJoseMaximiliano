@@ -7,10 +7,10 @@ import javax.validation.Valid;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.security.core.Authentication;
-//import org.springframework.security.core.GrantedAuthority;
-//import org.springframework.security.core.context.SecurityContext;
-//import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -33,22 +33,26 @@ public class UsuarioController {
 	@Autowired
 	private IUsuarioService usuarioService;
 	
+	@RequestMapping(value = {"/paginaInicio", "/"})
+	public String Inicio() {
+		return "paginaInicio";
+	}
 	
 	@RequestMapping(value = "/listar", method = RequestMethod.GET)
-	public String listar(Model model /*, Authentication authentication*/) {
+	public String listar(Model model , Authentication authentication) {
 		
-//		if(authentication != null) {
-//			logger.info("Hola usuario autenticado, tu username es: ".concat(authentication.getName()));
-//		}
-//		
-//		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if(authentication != null) {
+			logger.info("Hola usuario autenticado, tu username es: ".concat(authentication.getName()));
+		}
 		
-//		if(hasRole("DOCENTE")) {
-//			logger.info("Hola ".concat(auth.getName()).concat(" tienes acceso!"));
-//		}
-//		else {
-//			logger.info("Hola ".concat(auth.getName()).concat(" NO tienes acceso!"));
-//		}
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		
+		if(hasRole("Administrador")) {
+			logger.info("Hola ".concat(auth.getName()).concat(" tienes acceso!"));
+		}
+		else {
+			logger.info("Hola ".concat(auth.getName()).concat(" NO tienes acceso!"));
+		}
 		
 		
 		model.addAttribute("titulo", "Listado de usuarios");
@@ -65,15 +69,22 @@ public class UsuarioController {
 	}
 
 	@RequestMapping(value = "/form", method = RequestMethod.POST)
-	public String guardar(@Valid Usuario usuario, BindingResult result, Model model, RedirectAttributes flash) {
+	public String guardar(@Valid Usuario usuario, BindingResult result, Model model, RedirectAttributes flash, Authentication authentication) {
 		
 		if (result.hasErrors()) {
 			model.addAttribute("titulo", "Formulario de Usuario");
 			return "form";
 		} else {
 			usuarioService.save(usuario);
-			flash.addFlashAttribute("success", "Usuario creado con exito!");
-			return "redirect:/listar";
+
+			if(hasRole("Administrador")) {
+				flash.addFlashAttribute("success", "Usuario creado con exito!");
+				return "redirect:/listar";
+			}
+			else {
+				flash.addFlashAttribute("success", "Usuario creado con exito!");
+				return "redirect:/paginaInicio";
+			}
 		}
 	}
 
@@ -93,6 +104,33 @@ public class UsuarioController {
 		usuarioService.eliminar(dni);
 		flash.addFlashAttribute("error", "Usuario ha sido eliminado con exito!");
 		return "redirect:/listar";
+	}
+	
+public boolean hasRole(String role) {
+		
+		SecurityContext context = SecurityContextHolder.getContext();
+		
+		if(context == null) {
+			return false;
+		}
+		
+		Authentication auth = context.getAuthentication();
+		
+		if(auth == null) {
+			
+			return false;
+		}
+		
+		Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
+		
+		for(GrantedAuthority authority: authorities) {
+			if(role.equals(authority.getAuthority())) {
+				logger.info("Hola usuario ".concat(auth.getName()).concat(" tu rol es: ".concat(authority.getAuthority())));
+				return true;
+			}
+		}
+		
+		return false;
 	}
 
 }

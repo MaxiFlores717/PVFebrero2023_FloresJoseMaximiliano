@@ -3,7 +3,7 @@ package ar.edu.unju.edm.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,9 +27,9 @@ public class UsuarioServiceIMP implements IUsuarioService {
 //	@Transactional
 	public void save(Usuario usuario) {
 		// TODO Auto-generated method stub
-//		String pw = usuario.getPassword();
-//		BCryptPasswordEncoder coder = new BCryptPasswordEncoder(4);
-//		usuario.setPassword(coder.encode(pw));
+		String pw = usuario.getPassword();
+		BCryptPasswordEncoder coder = new BCryptPasswordEncoder(4);
+		usuario.setPassword(coder.encode(pw));
 		
 		usuarioDao.save(usuario);
 	}
