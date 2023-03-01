@@ -1,5 +1,6 @@
 package ar.edu.unju.edm.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,5 +49,20 @@ public class UsuarioServiceIMP implements IUsuarioService {
 		// TODO Auto-generated method stub
 		usuarioDao.deleteById(DNI);
 	}
+
+	@Override
+	public List<Usuario> findHuesped() {
+		// TODO Auto-generated method stub
+		List<Usuario> usuario = new ArrayList<>();
+		List<Usuario> usuario2 = new ArrayList<>();
+		usuario=(List<Usuario>) usuarioDao.findAll();
+		for(int i=0; i<usuario.size(); i++) {
+			if(usuario.get(i).getTipoUsuario().equals("Huesped")) {
+				usuario2.add(usuario.get(i));
+			}
+		}
+		return usuario2;
+	}
+	
 
 }

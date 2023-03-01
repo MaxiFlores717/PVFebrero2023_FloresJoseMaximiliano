@@ -10,5 +10,7 @@ public interface IUsuarioService {
 	public void save(Usuario usuario);
 	public Usuario buscarDni(Long dni);
 	public void eliminar(Long DNI);
+	public List<Usuario> findHuesped();
+	
 
 }

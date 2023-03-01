@@ -38,6 +38,23 @@ public class UsuarioController {
 		return "paginaInicio";
 	}
 	
+	@RequestMapping("/bienvenida")
+	public String bienvenida() {
+		return "bienvenida";
+	}
+	
+	@RequestMapping(value = "/listarHuesped", method = RequestMethod.GET)
+	public String listarNivel(Model model, Authentication authentication) {
+		
+		if(authentication != null) {
+			logger.info("Hola usuario autenticado, tu username es: ".concat(authentication.getName()));
+		}		
+		model.addAttribute("titulo", "Huespedes registrados:");
+		model.addAttribute("usuarios", usuarioService.findHuesped());
+		return "listarHuesped";
+	}
+	
+	
 	@RequestMapping(value = "/listar", method = RequestMethod.GET)
 	public String listar(Model model , Authentication authentication) {
 		
@@ -105,6 +122,7 @@ public class UsuarioController {
 		flash.addFlashAttribute("error", "Usuario ha sido eliminado con exito!");
 		return "redirect:/listar";
 	}
+	
 	
 public boolean hasRole(String role) {
 		
