@@ -24,8 +24,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
 	protected void configure(HttpSecurity http) throws Exception {
 
 		http.authorizeRequests().antMatchers("/paginaInicio/**", "/","/img/**", "/css/**", "/js/**", "/form/**").permitAll()
-		.antMatchers("/eliminar/**").hasAnyAuthority("Administrador")
-		.antMatchers("/listar/**", "/listarHuesped/**").hasAnyAuthority("Administrador")
+		.antMatchers("/eliminar/**", "/eliminarHabitacion/**").hasAnyAuthority("Administrador")
+		.antMatchers("/listar/**", "/listarHuesped/**", "/listarTodas/**", "/formHabitacion/**").hasAnyAuthority("Administrador")
 		.anyRequest().authenticated()
 		.and()
 		.formLogin()

@@ -10,9 +10,12 @@
 <body>
 
 	<header th:fragment="header">
-		<nav class="navbar navbar-expand-lg bg-info">
+		<nav class="navbar navbar-expand-lg bg" style="background-color: #e3f2fd;"><!-- 2 -->
 			<div class="container-fluid">
-				<a class="navbar-brand" href="/">Hotel-App</a>
+				<a class="navbar-brand" href="/">
+				<img alt="icono" th:src="@{/img/iconohotel.png}" width="35" height="35" class="d-inline-block align-text-top"><!-- 1 -->
+				Hotel-App
+				</a>
 				<button class="navbar-toggler" type="button"
 					data-bs-toggle="collapse" data-bs-target="#navbarNav"
 					aria-controls="navbarNav" aria-expanded="false"
@@ -55,9 +58,18 @@
 			th:text="${info}"></div>
 
 	</header>
+	
+	
 	<div class="container"></div>
+	
+	<h4 class="card-title">
+					<a class="btn btn-primary" th:href="@{/form}">Crear usuarios</a>
+					<a class="btn btn-primary" th:href="@{/listarHuesped}">Listar Huespedes</a>
+					<a class="btn btn-primary" th:href="@{/listarTodas}">Listar Habitaciones</a>
+					<a class="btn btn-primary" th:href="@{/formHabitacion}">Crear Habitaciones</a>
+	</h4>
 
-	<footer th:fragment="footer" class="container">
+	<footer th:fragment="footer" class="container py-3 my-4 border-top">
 		<p sec:authorize="isAuthenticated()">
 			Usuario logueado: <span sec:authentication="name"></span> | Roles: <span
 				sec:authentication="principal.authorities"></span>

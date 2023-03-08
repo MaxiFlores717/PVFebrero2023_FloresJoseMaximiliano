@@ -12,11 +12,9 @@
 			<div class="card-body">
 
 
-				<h4 class="card-title">
-					<a class="btn btn-primary" th:href="@{/form}">Crear usuarios</a>
-				</h4>
-				<table class="table table-striped">
-					<thead>
+				<h4 th:replace="layout/layout :: h4"></h4>
+				<table class="table table-striped table-hover table-bordered border-info">
+					<thead class="table-info">
 						<!-- columnas -->
 						<tr>
 							<th>DNI</th>

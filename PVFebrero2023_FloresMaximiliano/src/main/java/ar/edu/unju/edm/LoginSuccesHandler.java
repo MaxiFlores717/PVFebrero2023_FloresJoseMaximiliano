@@ -46,7 +46,7 @@ public class LoginSuccesHandler extends SimpleUrlAuthenticationSuccessHandler{
 			redirectStrategy.sendRedirect(request, response, "/listar");
 		}
 		if(tipoHuesped==true) {
-			redirectStrategy.sendRedirect(request, response, "/bienvenida");
+			redirectStrategy.sendRedirect(request, response, "/listarHabitacion");
 		}
 		
 		
