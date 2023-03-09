@@ -1,5 +1,6 @@
 package ar.edu.unju.edm.controllers;
 
+import java.time.LocalDate;
 import java.util.Collection;
 
 import javax.validation.Valid;
@@ -33,8 +34,24 @@ public class UsuarioController {
 	@Autowired
 	private IUsuarioService usuarioService;
 	
+	private boolean usuarioInicial = false;
+	
 	@RequestMapping(value = {"/paginaInicio", "/"})
 	public String Inicio() {
+		// prueba
+		if (usuarioInicial == false) {
+			usuarioInicial = true;
+			Usuario usuario = new Usuario();
+			usuario.setDNI((long) 10);
+			usuario.setApellido("Flores");
+			usuario.setNacionalidad("Argentino");
+			usuario.setFechaDeNacimiento(LocalDate.parse("2017-08-28"));
+			usuario.setNombre("Maxi");
+			usuario.setPassword("1234");
+			usuario.setTipoUsuario("Administrador");		
+			
+			usuarioService.save(usuario);
+		}
 		return "paginaInicio";
 	}
 	

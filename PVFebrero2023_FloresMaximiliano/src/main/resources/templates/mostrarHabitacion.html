@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="layout/layout :: head">
+</head>
+<body>
+	<header th:replace="layout/layout :: header"></header>
+
+	<div class="container py-4">
+
+		<div class="card border-info"><!-- 4 -->
+			<div class="card-header" th:text=${titulo}></div>
+			<div class="card-body">
+
+	
+				<table class="table table-striped table-hover table-bordered border-info"><!-- 3 -->
+					<thead class="table-info">
+						<!-- columnas -->
+						<tr>
+							<th>Código</th>
+							<th>Características</th>
+							<th>Tipo</th>
+							<th>Camas</th>
+							<th>Estado</th>
+						</tr>
+					</thead>
+					<tbody>
+						<!-- filas -->
+						<tr th:each="habitacion: ${habitaciones}">
+							<td th:text="${habitacion.codigo}"></td>
+							<td th:text="${habitacion.caracteristicas}"></td>
+							<td th:text="${habitacion.tipo}"></td>
+							<td th:text="${habitacion.camas}"></td>
+							<td th:text="${habitacion.estado}"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>
