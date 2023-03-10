@@ -43,9 +43,7 @@ public class HabitacionController {
 		model.addAttribute("titulo", "Elije una Habitación:");
 		model.addAttribute("habitaciones", habitacionService.findlibres());
 		return "listarHabitacion";
-	}
-	
-	
+	}	
 
 	@RequestMapping(value = "/formHabitacion")
 	public String crear(Model model) {
@@ -101,7 +99,7 @@ public class HabitacionController {
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		
-		if(hasRole("Administrador")) {
+		if(hasRole("Huesped")) {
 			logger.info("Hola ".concat(auth.getName()).concat(" tienes acceso!"));
 		}
 		else {

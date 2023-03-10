@@ -12,7 +12,9 @@
 			<div class="card-body">
 
 
-				<h4 th:replace="layout/layout :: h4">
+				<h4 class="card-title">
+					<a class="btn btn-primary" th:href="@{/formHabitacion}">Crear Habitaciones</a>
+					<a class="btn btn-primary" th:href="@{/listarTodas}">Listar Habitaciones</a>
 				</h4>
 				<table class="table table-striped table-hover table-bordered border-info"><!-- 3 -->
 					<thead class="table-info">

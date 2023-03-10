@@ -25,8 +25,8 @@
 				<div class="collapse navbar-collapse" id="navbarNav">
 					<ul class="navbar-nav mr-auto">
 						<li class="nav-item"><a class="nav-link active"
-							aria-current="page" href="/">Home</a></li>
-						<li class="nav-item"><a class="nav-link" href="/listar">listar</a>
+							aria-current="page" href="/listar">Listar Usuarios</a></li>
+						<li class="nav-item"><a class="nav-link" href="/listarTodas">listar Habitaciones</a>
 						</li>
 						<li class="nav-item"><a class="nav-link" href="/form">crear Usuario</a>
 						</li>
@@ -61,13 +61,6 @@
 	
 	
 	<div class="container"></div>
-	
-	<h4 class="card-title">
-					<a class="btn btn-primary" th:href="@{/form}">Crear usuarios</a>
-					<a class="btn btn-primary" th:href="@{/listarTodas}">Listar Habitaciones</a>
-					<a class="btn btn-primary" th:href="@{/formHabitacion}">Crear Habitaciones</a>
-					<a class="btn btn-primary" th:href="@{/filtrar}">Filtrar</a>
-	</h4>
 
 	<footer th:fragment="footer" class="container py-3 my-4 border-top">
 		<p sec:authorize="isAuthenticated()">
