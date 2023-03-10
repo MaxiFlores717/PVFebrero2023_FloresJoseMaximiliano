@@ -91,6 +91,28 @@ public class HabitacionController {
 		model.addAttribute("habitaciones", habitacionService.findAll());
 		return "listarTodas";
 	}
+	
+	@RequestMapping(value = "/mostrarHabitacion", method = RequestMethod.GET)
+	public String mostrar(Model model , Authentication authentication) {
+		
+		if(authentication != null) {
+			logger.info("Hola usuario autenticado, tu username es: ".concat(authentication.getName()));
+		}
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		
+		if(hasRole("Administrador")) {
+			logger.info("Hola ".concat(auth.getName()).concat(" tienes acceso!"));
+		}
+		else {
+			logger.info("Hola ".concat(auth.getName()).concat(" NO tienes acceso!"));
+		}
+		
+		
+		model.addAttribute("titulo", "Listado de Habitaciones completo:");
+		model.addAttribute("habitaciones", habitacionService.findlibres());
+		return "mostrarHabitacion";
+	}
 
 	@RequestMapping(value = "/formHabitacion/{codigo}")
 	public String modificar(@PathVariable(value = "codigo") Long codigo, Model model) {

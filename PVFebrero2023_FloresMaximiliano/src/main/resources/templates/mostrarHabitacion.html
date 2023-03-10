@@ -1,39 +1,34 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="layout/layout :: head">
 </head>
 <body>
 	<header th:replace="layout/layout :: header"></header>
 
-	<div class="container py-4">
+	<div class="row py-4 mx-4">
 
-		<div class="card border-info"><!-- 4 -->
-			<div class="card-header" th:text=${titulo}></div>
-			<div class="card-body">
-
-	
-				<table class="table table-striped table-hover table-bordered border-info"><!-- 3 -->
-					<thead class="table-info">
-						<!-- columnas -->
-						<tr>
-							<th>Código</th>
-							<th>Características</th>
-							<th>Tipo</th>
-							<th>Camas</th>
-							<th>Estado</th>
-						</tr>
-					</thead>
-					<tbody>
-						<!-- filas -->
-						<tr th:each="habitacion: ${habitaciones}">
-							<td th:text="${habitacion.codigo}"></td>
-							<td th:text="${habitacion.caracteristicas}"></td>
-							<td th:text="${habitacion.tipo}"></td>
-							<td th:text="${habitacion.camas}"></td>
-							<td th:text="${habitacion.estado}"></td>
-						</tr>
-					</tbody>
-				</table>
+		<div class="col-lg-3 col-md-6 mb-4 "
+			th:each="habitacion: ${habitaciones}">
+			<div class="card  h-100 border-primary" style="background-color: rgb(128, 255, 255);">
+				<img class="card-img-top" th:src="@{/img/premium.jpg}"
+					th:if="${habitacion.tipo=='Premium'}"> <img
+					class="card-img-top" th:src="@{/img/regular.jpg}"
+					th:if="${habitacion.tipo=='Regular'}">
+				<div class="card-body">
+					<h4 class="card-title" th:text="${habitacion.tipo}"></h4>
+					<h5 class="card-subtitle mb-2 text-muted">
+						Código: <a th:text="${habitacion.codigo}"></a>
+					</h5>
+					<p class="card-text" th:text="${habitacion.caracteristicas}"></p>
+				</div>
+				<ul class="list-group list-group-flush" >
+					<li class="list-group-item" style="background-color: #e3f2fd;">Tipo de cama: <a
+						th:text="${habitacion.camas}"></a></li>
+				</ul>
+				<div class="card-footer">
+				<a class="btn btn-primary" th:href="@{/form}">Crear usuarios</a>
+				</div>
 			</div>
 		</div>
 	</div>

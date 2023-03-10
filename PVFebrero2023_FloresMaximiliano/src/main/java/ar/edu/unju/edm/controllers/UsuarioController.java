@@ -8,6 +8,8 @@ import javax.validation.Valid;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
@@ -55,6 +57,12 @@ public class UsuarioController {
 		return "paginaInicio";
 	}
 	
+	@RequestMapping("/filtrar")
+	public String filtrar(Model model) {
+		model.addAttribute("titulo", "Filtro:");
+		return "filtrar";
+	}
+	
 	@RequestMapping("/bienvenida")
 	public String bienvenida() {
 		return "bienvenida";
@@ -73,8 +81,9 @@ public class UsuarioController {
 	
 	
 	@RequestMapping(value = "/listar", method = RequestMethod.GET)
-	public String listar(Model model , Authentication authentication) {
-		
+	public String listar(Model model , Authentication authentication, @Param("dni") Long dni, @Param("fecha") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fecha, 
+			@Param("palabraClave") String palabraClave) {
+				
 		if(authentication != null) {
 			logger.info("Hola usuario autenticado, tu username es: ".concat(authentication.getName()));
 		}
@@ -90,7 +99,44 @@ public class UsuarioController {
 		
 		
 		model.addAttribute("titulo", "Listado de usuarios");
-		model.addAttribute("usuarios", usuarioService.findAll());
+		
+		if(palabraClave==null) {
+			palabraClave="";
+		}
+		//listar todos
+		if(dni==null && fecha==null && palabraClave=="") {
+			
+			System.out.println(dni);
+			model.addAttribute("usuarios", usuarioService.findAll());
+		}
+		
+		//todas las combinaciones con dni
+		if(dni!=null && fecha==null && palabraClave=="") {	
+			model.addAttribute("usuarios", usuarioService.findByDNI(dni));
+		}
+		if(dni!=null && fecha!=null && palabraClave=="") {			
+			model.addAttribute("usuarios", usuarioService.findByDNIandFecha(dni, fecha));
+		}
+		if(dni!=null && fecha!=null && palabraClave!="") {			
+			model.addAttribute("usuarios", usuarioService.findByDNIandFechaandNacionalidad(dni, fecha, palabraClave));
+		}
+		if(dni!=null && fecha==null && palabraClave!="") {			
+			model.addAttribute("usuarios", usuarioService.findByDNIandNacionalidad(dni, palabraClave));
+		}
+		
+		//todas las combinaciones con fecha
+		if(dni==null && fecha!=null && palabraClave=="") {
+			model.addAttribute("usuarios", usuarioService.findByFechaNacimiento(fecha));
+		}
+		if(dni==null && fecha!=null && palabraClave!="") {
+			model.addAttribute("usuarios", usuarioService.findByFechaAndNacionalidad(fecha, palabraClave));
+		}
+		
+		//todas las combinaciones con nacionalidad
+		if(dni==null && fecha==null && palabraClave!="") {
+			model.addAttribute("usuarios", usuarioService.findByNacionalidad(palabraClave));
+		}
+	
 		return "listar";
 	}
 

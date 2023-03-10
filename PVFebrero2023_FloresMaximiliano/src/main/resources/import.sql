@@ -4,3 +4,6 @@ INSERT INTO Usuario (DNI, nombre, apellido, fecha_nacimiento, password, nacional
 INSERT INTO Habitacion (codigo, caracteristicas, tipo, camas, estado) VALUES(1, 'Muy chiquito', 'Regular', 'Simple', 'Libre');
 INSERT INTO Habitacion (codigo, caracteristicas, tipo, camas, estado) VALUES(2, 'Muy espaciado y grande', 'Premium', 'Triple', 'Ocupado');
 INSERT INTO Habitacion (codigo, caracteristicas, tipo, camas, estado) VALUES(3, 'Muy espaciado y grande', 'Premium', 'Doble', 'Libre');
+INSERT INTO Habitacion (codigo, caracteristicas, tipo, camas, estado) VALUES(4, 'Muy cómodo', 'Regular', 'Doble', 'Libre');
+INSERT INTO Habitacion (codigo, caracteristicas, tipo, camas, estado) VALUES(5, 'Muy espaciado y grande', 'Premium', 'Doble', 'Libre');
+INSERT INTO Habitacion (codigo, caracteristicas, tipo, camas, estado) VALUES(6, 'Muy espaciado y grande', 'Premium', 'Doble', 'Libre');

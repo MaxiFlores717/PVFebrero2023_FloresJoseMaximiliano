@@ -1,16 +1,16 @@
-<!DOCTYPE html>
+	<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:fragment="head">
 <meta charset="UTF-8" />
 <title th:text="${titulo}"></title>
-<!--  <link rel="stylesheet" th:href="@{/css/miEstilo.css}" type="text/css">-->
+<link rel="stylesheet" th:href="@{/css/img.css}" type="text/css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 </head>
 <body>
 
 	<header th:fragment="header">
-		<nav class="navbar navbar-expand-lg bg" style="background-color: #e3f2fd;"><!-- 2 -->
+		<nav class="navbar navbar-expand-lg bg-info"><!-- 2 -->
 			<div class="container-fluid">
 				<a class="navbar-brand" href="/">
 				<img alt="icono" th:src="@{/img/iconohotel.png}" width="35" height="35" class="d-inline-block align-text-top"><!-- 1 -->
@@ -37,11 +37,11 @@
 
 				<ul class="navbar-nav navbar-right">
 					<li sec:authorize=!isAuthenticated()><a
-						class="btn btn-outline-primary" th:href="@{/login}">Sing In</a></li>
+						class="btn btn-outline-danger" th:href="@{/login}">Sing In</a></li>
 						
 					<li sec:authorize=isAuthenticated()>
 						<form id="logoutForm" th:action="@{/logout}" method="post">
-						<button class="btn btn-outline-primary" onclick="document.getElementById('logoutForm').sudmit();" type="submit">Sign Out</button>
+						<button class="btn btn-outline-danger" onclick="document.getElementById('logoutForm').sudmit();" type="submit">Sign Out</button>
 						</form>
 					</li>
 				</ul>
@@ -67,6 +67,7 @@
 					<a class="btn btn-primary" th:href="@{/listarHuesped}">Listar Huespedes</a>
 					<a class="btn btn-primary" th:href="@{/listarTodas}">Listar Habitaciones</a>
 					<a class="btn btn-primary" th:href="@{/formHabitacion}">Crear Habitaciones</a>
+					<a class="btn btn-primary" th:href="@{/filtrar}">Filtrar</a>
 	</h4>
 
 	<footer th:fragment="footer" class="container py-3 my-4 border-top">
