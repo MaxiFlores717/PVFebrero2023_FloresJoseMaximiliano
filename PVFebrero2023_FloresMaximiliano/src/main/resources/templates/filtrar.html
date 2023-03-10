@@ -29,9 +29,16 @@
 					<div class="form-group mx-sm-3 mb-2">
 						<input type="text" name="palabraClave" class="form-control" id="palabraClave" th:value="${palabraClave}">
 					</div>
-					<input type="submit" class="btn btn-info mb-2" value="Buscar">
+					
+					<div class="form-gropu mb-2">
+					<label>Tipo de usuario : </label>
+					</div>
+					<div class="form-group mx-sm-3 mb-2">
+						<input type="text" name="tipo" class="form-control" id="tipo" th:value="${tipo}" placeholder="Escriba el tipo de usuario">
+					</div>
+					<input type="submit" class="btn btn-info btn-lg btn-block border border-primary" value="Buscar">
 					&nbsp;&nbsp;
-					<input type="submit" class="btn btn-secondary mb-2" value="Limpiar">
+					<a  class="btn btn-success btn-lg btn-block"th:href="@{/listar}" >Volver</a>
 				</form>
 			</div>
 		</div>

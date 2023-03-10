@@ -14,7 +14,7 @@ import ar.edu.unju.edm.models.Usuario;
 
 @Service
 public class UsuarioServiceIMP implements IUsuarioService {
-	
+
 	@Autowired
 	private IUsuarioDao usuarioDao;
 
@@ -32,7 +32,7 @@ public class UsuarioServiceIMP implements IUsuarioService {
 		String pw = usuario.getPassword();
 		BCryptPasswordEncoder coder = new BCryptPasswordEncoder(4);
 		usuario.setPassword(coder.encode(pw));
-		
+
 		usuarioDao.save(usuario);
 	}
 
@@ -40,7 +40,7 @@ public class UsuarioServiceIMP implements IUsuarioService {
 	@Transactional(readOnly = true)
 	public Usuario buscarDni(Long dni) {
 		// TODO Auto-generated method stub
-		
+
 		return usuarioDao.findById(dni).orElse(null);
 	}
 
@@ -56,23 +56,23 @@ public class UsuarioServiceIMP implements IUsuarioService {
 		// TODO Auto-generated method stub
 		List<Usuario> usuario = new ArrayList<>();
 		List<Usuario> usuario2 = new ArrayList<>();
-		usuario=(List<Usuario>) usuarioDao.findAll();
-		for(int i=0; i<usuario.size(); i++) {
-			if(usuario.get(i).getTipoUsuario().equals("Huesped")) {
+		usuario = (List<Usuario>) usuarioDao.findAll();
+		for (int i = 0; i < usuario.size(); i++) {
+			if (usuario.get(i).getTipoUsuario().equals("Huesped")) {
 				usuario2.add(usuario.get(i));
 			}
 		}
 		return usuario2;
 	}
-	
+
 	@Override
 	public List<Usuario> findByFechaNacimiento(LocalDate date) {
 		// TODO Auto-generated method stub
 		List<Usuario> usuario = new ArrayList<>();
 		List<Usuario> usuario2 = new ArrayList<>();
-		usuario=(List<Usuario>) usuarioDao.findAll();
-		for(int i=0; i<usuario.size(); i++) {
-			if(usuario.get(i).getFechaDeNacimiento().compareTo(date)==0) {
+		usuario = (List<Usuario>) usuarioDao.findAll();
+		for (int i = 0; i < usuario.size(); i++) {
+			if (usuario.get(i).getFechaDeNacimiento().compareTo(date) == 0) {
 				usuario2.add(usuario.get(i));
 			}
 		}
@@ -84,13 +84,13 @@ public class UsuarioServiceIMP implements IUsuarioService {
 		// TODO Auto-generated method stub
 		List<Usuario> usuario = new ArrayList<>();
 		List<Usuario> usuario2 = new ArrayList<>();
-		usuario=(List<Usuario>) usuarioDao.findAll();
-		for(int i=0; i<usuario.size(); i++) {
-			if(usuario.get(i).getNacionalidad().equals(palabraClave)) {
+		usuario = (List<Usuario>) usuarioDao.findAll();
+		for (int i = 0; i < usuario.size(); i++) {
+			if (usuario.get(i).getNacionalidad().equals(palabraClave)) {
 				usuario2.add(usuario.get(i));
 			}
 		}
-		return  usuario2;
+		return usuario2;
 	}
 
 	@Override
@@ -98,13 +98,13 @@ public class UsuarioServiceIMP implements IUsuarioService {
 		// TODO Auto-generated method stub
 		List<Usuario> usuario = new ArrayList<>();
 		List<Usuario> usuario2 = new ArrayList<>();
-		usuario=(List<Usuario>) usuarioDao.findAll();
-		for(int i=0; i<usuario.size(); i++) {
-			if(usuario.get(i).getDNI()==dni) {
+		usuario = (List<Usuario>) usuarioDao.findAll();
+		for (int i = 0; i < usuario.size(); i++) {
+			if (usuario.get(i).getDNI() == dni) {
 				usuario2.add(usuario.get(i));
 			}
 		}
-		return  usuario2;
+		return usuario2;
 	}
 
 	@Override
@@ -112,15 +112,15 @@ public class UsuarioServiceIMP implements IUsuarioService {
 		// TODO Auto-generated method stub
 		List<Usuario> usuario = new ArrayList<>();
 		List<Usuario> usuario2 = new ArrayList<>();
-		usuario=(List<Usuario>) usuarioDao.findAll();
-		for(int i=0; i<usuario.size(); i++) {
-			if(usuario.get(i).getDNI()==dni) {
-				if(usuario.get(i).getFechaDeNacimiento().compareTo(fecha)==0) {
+		usuario = (List<Usuario>) usuarioDao.findAll();
+		for (int i = 0; i < usuario.size(); i++) {
+			if (usuario.get(i).getDNI() == dni) {
+				if (usuario.get(i).getFechaDeNacimiento().compareTo(fecha) == 0) {
 					usuario2.add(usuario.get(i));
 				}
 			}
 		}
-		return  usuario2;
+		return usuario2;
 	}
 
 	@Override
@@ -128,17 +128,17 @@ public class UsuarioServiceIMP implements IUsuarioService {
 		// TODO Auto-generated method stub
 		List<Usuario> usuario = new ArrayList<>();
 		List<Usuario> usuario2 = new ArrayList<>();
-		usuario=(List<Usuario>) usuarioDao.findAll();
-		for(int i=0; i<usuario.size(); i++) {
-			if(usuario.get(i).getDNI()==dni) {
-				if(usuario.get(i).getFechaDeNacimiento().compareTo(fecha)==0) {
-					if(usuario.get(i).getNacionalidad().equals(palabraClave)) {
+		usuario = (List<Usuario>) usuarioDao.findAll();
+		for (int i = 0; i < usuario.size(); i++) {
+			if (usuario.get(i).getDNI() == dni) {
+				if (usuario.get(i).getFechaDeNacimiento().compareTo(fecha) == 0) {
+					if (usuario.get(i).getNacionalidad().equals(palabraClave)) {
 						usuario2.add(usuario.get(i));
 					}
 				}
 			}
 		}
-		return  usuario2;
+		return usuario2;
 	}
 
 	@Override
@@ -146,33 +146,133 @@ public class UsuarioServiceIMP implements IUsuarioService {
 		// TODO Auto-generated method stub
 		List<Usuario> usuario = new ArrayList<>();
 		List<Usuario> usuario2 = new ArrayList<>();
-		usuario=(List<Usuario>) usuarioDao.findAll();
-		for(int i=0; i<usuario.size(); i++) {
-			if(usuario.get(i).getDNI()==dni) {
-					if(usuario.get(i).getNacionalidad().equals(palabraClave)) {
-						usuario2.add(usuario.get(i));
-					}
+		usuario = (List<Usuario>) usuarioDao.findAll();
+		for (int i = 0; i < usuario.size(); i++) {
+			if (usuario.get(i).getDNI() == dni) {
+				if (usuario.get(i).getNacionalidad().equals(palabraClave)) {
+					usuario2.add(usuario.get(i));
+				}
 			}
 		}
-		return  usuario2;
+		return usuario2;
 	}
 
 	@Override
 	public List<Usuario> findByFechaAndNacionalidad(LocalDate fecha, String palabraClave) {
 		// TODO Auto-generated method stub
-		
+
 		List<Usuario> usuario = new ArrayList<>();
 		List<Usuario> usuario2 = new ArrayList<>();
-		usuario=(List<Usuario>) usuarioDao.findAll();
-		for(int i=0; i<usuario.size(); i++) {
-				if(usuario.get(i).getFechaDeNacimiento().compareTo(fecha)==0) {
-					if(usuario.get(i).getNacionalidad().equals(palabraClave)) {
-						usuario2.add(usuario.get(i));
+		usuario = (List<Usuario>) usuarioDao.findAll();
+		for (int i = 0; i < usuario.size(); i++) {
+			if (usuario.get(i).getFechaDeNacimiento().compareTo(fecha) == 0) {
+				if (usuario.get(i).getNacionalidad().equals(palabraClave)) {
+					usuario2.add(usuario.get(i));
+				}
+			}
+		}
+		return usuario2;
+	}
+
+	@Override
+	public List<Usuario> findByDNIFechaNacionalidadTipo(Long dni, LocalDate fecha, String palabraClave, String tipo) {
+		// TODO Auto-generated method stub
+		List<Usuario> usuario = new ArrayList<>();
+		List<Usuario> usuario2 = new ArrayList<>();
+		usuario = (List<Usuario>) usuarioDao.findAll();
+		for (int i = 0; i < usuario.size(); i++) {
+			if (usuario.get(i).getDNI() == dni) {
+				if (usuario.get(i).getFechaDeNacimiento().compareTo(fecha) == 0) {
+					if (usuario.get(i).getNacionalidad().equals(palabraClave)) {
+						if (usuario.get(i).getTipoUsuario().equals(tipo)) {
+							usuario2.add(usuario.get(i));
+						}
+					}
+				}
+			}
+		}
+		return usuario2;
+	}
+
+	@Override
+	public List<Usuario> findByDNITipo(Long dni, String tipo) {
+		// TODO Auto-generated method stub
+		List<Usuario> usuario = new ArrayList<>();
+		List<Usuario> usuario2 = new ArrayList<>();
+		usuario = (List<Usuario>) usuarioDao.findAll();
+		for (int i = 0; i < usuario.size(); i++) {
+			if (usuario.get(i).getDNI() == dni) {
+				if (usuario.get(i).getTipoUsuario().equals(tipo)) {
+					usuario2.add(usuario.get(i));
+				}
+
+			}
+		}
+		return usuario2;
+	}
+
+	@Override
+	public List<Usuario> findByFechaTipo(LocalDate fecha, String tipo) {
+		// TODO Auto-generated method stub
+		List<Usuario> usuario = new ArrayList<>();
+		List<Usuario> usuario2 = new ArrayList<>();
+		usuario = (List<Usuario>) usuarioDao.findAll();
+		for (int i = 0; i < usuario.size(); i++) {
+
+			if (usuario.get(i).getFechaDeNacimiento().compareTo(fecha) == 0) {
+				if (usuario.get(i).getTipoUsuario().equals(tipo)) {
+					usuario2.add(usuario.get(i));
+				}
+			}
+		}
+		return usuario2;
+	}
+
+	@Override
+	public List<Usuario> findByNacionalidadTipo(String palabraClave, String tipo) {
+		// TODO Auto-generated method stub
+		List<Usuario> usuario = new ArrayList<>();
+		List<Usuario> usuario2 = new ArrayList<>();
+		usuario = (List<Usuario>) usuarioDao.findAll();
+		for (int i = 0; i < usuario.size(); i++) {
+			if (usuario.get(i).getNacionalidad().equals(palabraClave)) {
+				if (usuario.get(i).getTipoUsuario().equals(tipo)) {
+					usuario2.add(usuario.get(i));
+				}
+			}
+		}
+		return usuario2;
+	}
+
+	@Override
+	public List<Usuario> findByTipo(String tipo) {
+		// TODO Auto-generated method stub
+		List<Usuario> usuario = new ArrayList<>();
+		List<Usuario> usuario2 = new ArrayList<>();
+		usuario = (List<Usuario>) usuarioDao.findAll();
+		for (int i = 0; i < usuario.size(); i++) {
+			if (usuario.get(i).getTipoUsuario().equals(tipo)) {
+				usuario2.add(usuario.get(i));
+			}
+		}
+		return usuario2;
+	}
+
+	@Override
+	public List<Usuario> findByFechaNacionalidadTipo(LocalDate fecha, String palabraClave, String tipo) {
+		// TODO Auto-generated method stub
+		List<Usuario> usuario = new ArrayList<>();
+		List<Usuario> usuario2 = new ArrayList<>();
+		usuario = (List<Usuario>) usuarioDao.findAll();
+		for (int i = 0; i < usuario.size(); i++) {
+				if (usuario.get(i).getFechaDeNacimiento().compareTo(fecha) == 0) {
+					if (usuario.get(i).getNacionalidad().equals(palabraClave)) {
+						if (usuario.get(i).getTipoUsuario().equals(tipo)) {
+							usuario2.add(usuario.get(i));
+						}
 					}
 				}
 		}
-		return  usuario2;
+		return usuario2;
 	}
-	
-
 }

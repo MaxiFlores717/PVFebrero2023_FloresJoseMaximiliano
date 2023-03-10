@@ -124,6 +124,12 @@ public class Usuario implements Serializable{
 	public Usuario() {
 		super();
 	}
+
+	@Override
+	public String toString() {
+		return nombre;
+	}
+	
 	
 	
 

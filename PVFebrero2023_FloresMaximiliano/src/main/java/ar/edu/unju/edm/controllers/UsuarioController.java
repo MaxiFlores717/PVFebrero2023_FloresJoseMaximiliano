@@ -2,6 +2,7 @@ package ar.edu.unju.edm.controllers;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -81,8 +82,10 @@ public class UsuarioController {
 	
 	
 	@RequestMapping(value = "/listar", method = RequestMethod.GET)
-	public String listar(Model model , Authentication authentication, @Param("dni") Long dni, @Param("fecha") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fecha, 
-			@Param("palabraClave") String palabraClave) {
+	public String listar(Model model , Authentication authentication, @Param("dni") Long dni,
+			@Param("fecha") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fecha, 
+			@Param("palabraClave") String palabraClave,
+			@Param("tipo") String tipo) {
 				
 		if(authentication != null) {
 			logger.info("Hola usuario autenticado, tu username es: ".concat(authentication.getName()));
@@ -103,40 +106,75 @@ public class UsuarioController {
 		if(palabraClave==null) {
 			palabraClave="";
 		}
+		if(tipo==null) {
+			tipo="";
+		}
 		//listar todos
 		if(dni==null && fecha==null && palabraClave=="") {
-			
-			System.out.println(dni);
+			logger.info("Hola "+ usuarioService.buscarDni(Long.parseLong(auth.getName())).getNombre().concat(" listando TODOS los usuarios!"));
 			model.addAttribute("usuarios", usuarioService.findAll());
 		}
 		
 		//todas las combinaciones con dni
-		if(dni!=null && fecha==null && palabraClave=="") {	
+		if(dni!=null && fecha==null && palabraClave=="" && tipo=="") {	
+			logger.info("Hola "+ usuarioService.buscarDni(Long.parseLong(auth.getName())).getNombre().concat(" listando por DNI:".concat(dni.toString())+ "!"));
 			model.addAttribute("usuarios", usuarioService.findByDNI(dni));
 		}
-		if(dni!=null && fecha!=null && palabraClave=="") {			
+		if(dni!=null && fecha!=null && palabraClave=="" && tipo=="") {
+			logger.info("Hola "+ usuarioService.buscarDni(Long.parseLong(auth.getName())).getNombre().concat(" listando por DNI:".concat(dni.toString()).concat(" Y listando por FECHA:".concat(fecha.toString())+"!")));
 			model.addAttribute("usuarios", usuarioService.findByDNIandFecha(dni, fecha));
 		}
-		if(dni!=null && fecha!=null && palabraClave!="") {			
+		if(dni!=null && fecha!=null && palabraClave!="" && tipo=="") {	
+			logger.info("Hola ".concat(auth.getName()).concat(" listando por DNI:".concat(dni.toString()).concat(", listando por FECHA:".concat(fecha.toString()).concat(" Y listando por NACIONALIDAD:".concat(palabraClave.toString())+"!"))));
 			model.addAttribute("usuarios", usuarioService.findByDNIandFechaandNacionalidad(dni, fecha, palabraClave));
 		}
-		if(dni!=null && fecha==null && palabraClave!="") {			
+		if(dni!=null && fecha==null && palabraClave!="" && tipo=="") {
+			logger.info("Hola "+ usuarioService.buscarDni(Long.parseLong(auth.getName())).getNombre().concat(" listando por DNI:".concat(dni.toString()).concat(" Y listando por NACIONALIDAD:".concat(palabraClave.toString())+"!")));
 			model.addAttribute("usuarios", usuarioService.findByDNIandNacionalidad(dni, palabraClave));
+		}
+		if(dni!=null && fecha!=null && palabraClave!="" && tipo!="") {
+			logger.info("Hola "+ usuarioService.buscarDni(Long.parseLong(auth.getName())).getNombre().concat(" listando por DNI:".concat(dni.toString()).concat(", listando por FECHA:".concat(fecha.toString()).concat(", listando por NACIONALIDAD:".concat(palabraClave.toString()).concat(" Y listando por TIPO:").concat(tipo).toString()+"!"))));
+			model.addAttribute("usuarios", usuarioService.findByDNIFechaNacionalidadTipo(dni, fecha, palabraClave, tipo));
+		}
+		if(dni!=null && fecha==null && palabraClave=="" && tipo!="") {
+			logger.info("Hola "+ usuarioService.buscarDni(Long.parseLong(auth.getName())).getNombre().concat(" listando por DNI:".concat(dni.toString()).concat(" Y listando por TIPO:").concat(tipo).toString()+"!"));
+			model.addAttribute("usuarios", usuarioService.findByDNITipo(dni, tipo));
 		}
 		
 		//todas las combinaciones con fecha
-		if(dni==null && fecha!=null && palabraClave=="") {
+		if(dni==null && fecha!=null && palabraClave=="" && tipo=="") {
+			logger.info("Hola "+ usuarioService.buscarDni(Long.parseLong(auth.getName())).getNombre().concat(", listando por FECHA:".concat(fecha.toString())+"!"));
 			model.addAttribute("usuarios", usuarioService.findByFechaNacimiento(fecha));
 		}
-		if(dni==null && fecha!=null && palabraClave!="") {
+		if(dni==null && fecha!=null && palabraClave!="" && tipo=="") {
+			logger.info("Hola "+ usuarioService.buscarDni(Long.parseLong(auth.getName())).getNombre().concat(", listando por FECHA:".concat(fecha.toString()).concat(", listando por NACIONALIDAD:".concat(palabraClave.toString())+"!")));
 			model.addAttribute("usuarios", usuarioService.findByFechaAndNacionalidad(fecha, palabraClave));
+		}
+		if(dni==null && fecha!=null && palabraClave=="" && tipo!="") {
+			logger.info("Hola "+ usuarioService.buscarDni(Long.parseLong(auth.getName())).getNombre().concat(", listando por FECHA:".concat(fecha.toString()).concat(" Y listando por TIPO:").concat(tipo).toString()+"!"));
+			model.addAttribute("usuarios", usuarioService.findByFechaTipo(fecha, tipo));
+		}
+		if(dni==null && fecha!=null && palabraClave!="" && tipo!="") {
+			logger.info("Hola "+ usuarioService.buscarDni(Long.parseLong(auth.getName())).getNombre().concat(", listando por FECHA:".concat(fecha.toString()).concat(", listando por NACIONALIDAD:".concat(palabraClave.toString()).concat(" Y listando por TIPO:").concat(tipo).toString()+"!")));
+			model.addAttribute("usuarios", usuarioService.findByFechaNacionalidadTipo(fecha, palabraClave, tipo));
 		}
 		
 		//todas las combinaciones con nacionalidad
-		if(dni==null && fecha==null && palabraClave!="") {
+		if(dni==null && fecha==null && palabraClave!="" && tipo=="") {
+			logger.info("Hola "+ usuarioService.buscarDni(Long.parseLong(auth.getName())).getNombre().concat(", listando por NACIONALIDAD:".concat(palabraClave.toString())+"!"));
 			model.addAttribute("usuarios", usuarioService.findByNacionalidad(palabraClave));
 		}
-	
+		if(dni==null && fecha==null && palabraClave!="" && tipo!="") {
+			logger.info("Hola "+ usuarioService.buscarDni(Long.parseLong(auth.getName())).getNombre().concat(", listando por NACIONALIDAD:".concat(palabraClave.toString()).concat(" Y listando por TIPO:").concat(tipo).toString()+"!"));
+			model.addAttribute("usuarios", usuarioService.findByNacionalidadTipo(palabraClave, tipo));
+		}
+		
+		if(dni==null && fecha==null && palabraClave=="" && tipo!="") {
+			logger.info("Hola "+ usuarioService.buscarDni(Long.parseLong(auth.getName())).getNombre().concat(" Y listando por TIPO:").concat(tipo).toString()+"!");
+			model.addAttribute("usuarios", usuarioService.findByTipo(tipo));
+		}
+		model.addAttribute("usuarioLogeado", usuarioService.buscarDni(Long.parseLong(auth.getName())));
+		
 		return "listar";
 	}
 
