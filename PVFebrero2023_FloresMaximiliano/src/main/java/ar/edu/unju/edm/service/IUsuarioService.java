@@ -30,6 +30,7 @@ public interface IUsuarioService {
 	
 	public List<Usuario> findByDniAndFechaAndNacionalidadAndTipoUsuario(Long dni, LocalDate fecha, String nacionalidad, String tipoUsuario);	public void save(Usuario usuario);
 	public Usuario buscarDni(Long dni);
+	public boolean existeDni(Long dni);
 	public void eliminar(Long DNI);
 	public List<Usuario> findHuesped();
 

@@ -39,6 +39,8 @@ public class UsuarioController {
 	
 	private boolean usuarioInicial = false;
 	
+	Long dniDelUsuarioActual;
+	
 	@RequestMapping(value = {"/paginaInicio", "/"})
 	public String Inicio() {
 		// prueba
@@ -84,7 +86,7 @@ public class UsuarioController {
 	@RequestMapping(value = "/listar", method = RequestMethod.GET)
 	public String listar(Model model , Authentication authentication, @Param("dni") Long dni,
 			@Param("fecha") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fecha, 
-			@Param("palabraClave") String palabraClave,
+			@Param("nacionalidad") String nacionalidad,
 			@Param("tipo") String tipo) {
 				
 		if(authentication != null) {
@@ -103,32 +105,34 @@ public class UsuarioController {
 		
 		model.addAttribute("titulo", "Listado de usuarios");
 		
-		if(palabraClave==null) {
-			palabraClave="";
+		if(nacionalidad==null) {
+			nacionalidad="";
 		}
 		if(tipo==null) {
 			tipo="";
 		}
+		
 		//listar todos
-		if(dni==null && fecha==null && palabraClave=="") {
+		if(dni==null && fecha==null && nacionalidad=="") {
 			logger.info("Hola "+ usuarioService.buscarDni(Long.parseLong(auth.getName())).getNombre().concat(" listando TODOS los usuarios!"));
 			model.addAttribute("usuarios", usuarioService.findAll());
 		}
+
 		
 		
-		if(dni!=null && fecha==null && palabraClave=="" && tipo=="") {	
+		if(dni!=null && fecha==null && nacionalidad=="" && tipo=="") {	
 			logger.info("Hola "+ usuarioService.buscarDni(Long.parseLong(auth.getName())).getNombre().concat(" listando por DNI:".concat(dni.toString())+ "!"));
 			model.addAttribute("usuarios", usuarioService.findByDni(dni));
 		}
-		if(dni==null && fecha!=null && palabraClave=="" && tipo=="") {
+		if(dni==null && fecha!=null && nacionalidad=="" && tipo=="") {
 			logger.info("Hola "+ usuarioService.buscarDni(Long.parseLong(auth.getName())).getNombre().concat(", listando por FECHA:".concat(fecha.toString())+"!"));
 			model.addAttribute("usuarios", usuarioService.findByFecha(fecha));
 		}
-		if(dni==null && fecha==null && palabraClave!="" && tipo=="") {
-			logger.info("Hola "+ usuarioService.buscarDni(Long.parseLong(auth.getName())).getNombre().concat(", listando por NACIONALIDAD:".concat(palabraClave.toString())+"!"));
-			model.addAttribute("usuarios", usuarioService.findByNacionalidad(palabraClave));
+		if(dni==null && fecha==null && nacionalidad!="" && tipo=="") {
+			logger.info("Hola "+ usuarioService.buscarDni(Long.parseLong(auth.getName())).getNombre().concat(", listando por NACIONALIDAD:".concat(nacionalidad.toString())+"!"));
+			model.addAttribute("usuarios", usuarioService.findByNacionalidad(nacionalidad));
 		}
-		if(dni==null && fecha==null && palabraClave=="" && tipo!="") {
+		if(dni==null && fecha==null && nacionalidad=="" && tipo!="") {
 			logger.info("Hola "+ usuarioService.buscarDni(Long.parseLong(auth.getName())).getNombre().concat(" Y listando por TIPO:").concat(tipo).toString()+"!");
 			model.addAttribute("usuarios", usuarioService.findByTipoUsuario(tipo));
 		}
@@ -137,26 +141,26 @@ public class UsuarioController {
 		
 		
 		
-		if(dni!=null && fecha!=null && palabraClave=="" && tipo=="") {
+		if(dni!=null && fecha!=null && nacionalidad=="" && tipo=="") {
 			logger.info("Hola "+ usuarioService.buscarDni(Long.parseLong(auth.getName())).getNombre().concat(" listando por DNI:".concat(dni.toString()).concat(" Y listando por FECHA:".concat(fecha.toString())+"!")));
 			model.addAttribute("usuarios", usuarioService.findByDniAndFecha(dni, fecha));
 		}
-		if(dni!=null && fecha==null && palabraClave!="" && tipo=="") {
-			logger.info("Hola "+ usuarioService.buscarDni(Long.parseLong(auth.getName())).getNombre().concat(" listando por DNI:".concat(dni.toString()).concat(" Y listando por NACIONALIDAD:".concat(palabraClave.toString())+"!")));
-			model.addAttribute("usuarios", usuarioService.findByNacionalidadAndDni(palabraClave, dni));
+		if(dni!=null && fecha==null && nacionalidad!="" && tipo=="") {
+			logger.info("Hola "+ usuarioService.buscarDni(Long.parseLong(auth.getName())).getNombre().concat(" listando por DNI:".concat(dni.toString()).concat(" Y listando por NACIONALIDAD:".concat(nacionalidad.toString())+"!")));
+			model.addAttribute("usuarios", usuarioService.findByNacionalidadAndDni(nacionalidad, dni));
 		}
-		if(dni!=null && fecha==null && palabraClave=="" && tipo!="") {
+		if(dni!=null && fecha==null && nacionalidad=="" && tipo!="") {
 			logger.info("Hola "+ usuarioService.buscarDni(Long.parseLong(auth.getName())).getNombre().concat(" listando por DNI:".concat(dni.toString()).concat(" Y listando por TIPO:").concat(tipo).toString()+"!"));
 			model.addAttribute("usuarios", usuarioService.findByDniAndTipoUsuario(dni, tipo));
 		}
 		
 		
 		
-		if(dni==null && fecha!=null && palabraClave!="" && tipo=="") {
-			logger.info("Hola "+ usuarioService.buscarDni(Long.parseLong(auth.getName())).getNombre().concat(", listando por FECHA:".concat(fecha.toString()).concat(", listando por NACIONALIDAD:".concat(palabraClave.toString())+"!")));
-			model.addAttribute("usuarios", usuarioService.findByFechaAndNacionalidad(fecha, palabraClave));
+		if(dni==null && fecha!=null && nacionalidad!="" && tipo=="") {
+			logger.info("Hola "+ usuarioService.buscarDni(Long.parseLong(auth.getName())).getNombre().concat(", listando por FECHA:".concat(fecha.toString()).concat(", listando por NACIONALIDAD:".concat(nacionalidad.toString())+"!")));
+			model.addAttribute("usuarios", usuarioService.findByFechaAndNacionalidad(fecha, nacionalidad));
 		}
-		if(dni==null && fecha!=null && palabraClave=="" && tipo!="") {
+		if(dni==null && fecha!=null && nacionalidad=="" && tipo!="") {
 			logger.info("Hola "+ usuarioService.buscarDni(Long.parseLong(auth.getName())).getNombre().concat(", listando por FECHA:".concat(fecha.toString()).concat(" Y listando por TIPO:").concat(tipo).toString()+"!"));
 			model.addAttribute("usuarios", usuarioService.findByFechaAndTipoUsuario(fecha, tipo));
 		}
@@ -164,27 +168,27 @@ public class UsuarioController {
 		
 		
 		
-		if(dni==null && fecha==null && palabraClave!="" && tipo!="") {
-			logger.info("Hola "+ usuarioService.buscarDni(Long.parseLong(auth.getName())).getNombre().concat(", listando por NACIONALIDAD:".concat(palabraClave.toString()).concat(" Y listando por TIPO:").concat(tipo).toString()+"!"));
-			model.addAttribute("usuarios", usuarioService.findByNacionalidadAndTipoUsuario(palabraClave, tipo));
+		if(dni==null && fecha==null && nacionalidad!="" && tipo!="") {
+			logger.info("Hola "+ usuarioService.buscarDni(Long.parseLong(auth.getName())).getNombre().concat(", listando por NACIONALIDAD:".concat(nacionalidad.toString()).concat(" Y listando por TIPO:").concat(tipo).toString()+"!"));
+			model.addAttribute("usuarios", usuarioService.findByNacionalidadAndTipoUsuario(nacionalidad, tipo));
 		}
 		
 		
 		
-		if(dni!=null && fecha==null && palabraClave!="" && tipo!="") {
-			model.addAttribute("usuarios", usuarioService.findByDniAndNacionalidadAndTipoUsuario(dni, palabraClave, tipo));
+		if(dni!=null && fecha==null && nacionalidad!="" && tipo!="") {
+			model.addAttribute("usuarios", usuarioService.findByDniAndNacionalidadAndTipoUsuario(dni, nacionalidad, tipo));
 		}
-		if(dni!=null && fecha!=null && palabraClave!="" && tipo=="") {	
-			logger.info("Hola ".concat(auth.getName()).concat(" listando por DNI:".concat(dni.toString()).concat(", listando por FECHA:".concat(fecha.toString()).concat(" Y listando por NACIONALIDAD:".concat(palabraClave.toString())+"!"))));
-			model.addAttribute("usuarios", usuarioService.findByDniAndFechaAndNacionalidad(dni, fecha, palabraClave));
+		if(dni!=null && fecha!=null && nacionalidad!="" && tipo=="") {	
+			logger.info("Hola ".concat(auth.getName()).concat(" listando por DNI:".concat(dni.toString()).concat(", listando por FECHA:".concat(fecha.toString()).concat(" Y listando por NACIONALIDAD:".concat(nacionalidad.toString())+"!"))));
+			model.addAttribute("usuarios", usuarioService.findByDniAndFechaAndNacionalidad(dni, fecha, nacionalidad));
 		}
-		if(dni!=null && fecha!=null && palabraClave=="" && tipo!="") {
+		if(dni!=null && fecha!=null && nacionalidad=="" && tipo!="") {
 			logger.info("Hola "+ usuarioService.buscarDni(Long.parseLong(auth.getName())).getNombre().concat(" listando por DNI:".concat(dni.toString()).concat(", listando por FECHA:".concat(fecha.toString()).concat(" Y listando por TIPO:").concat(tipo).toString()+"!")));
 			model.addAttribute("usuarios", usuarioService.findByDniAndFechaAndTipoUsuario(dni, fecha, tipo));
 		}
-		if(dni==null && fecha!=null && palabraClave!="" && tipo!="") {
-			logger.info("Hola "+ usuarioService.buscarDni(Long.parseLong(auth.getName())).getNombre().concat(" listando por FECHA:".concat(fecha.toString()).concat(", listando por NACIONALIDAD").concat(palabraClave.toString()).concat(" Y listando por TIPO:").concat(tipo).toString()+"!"));
-			model.addAttribute("usuarios", usuarioService.findByFechaAndTipoUsuarioAndNacionalidad(fecha, tipo, palabraClave));
+		if(dni==null && fecha!=null && nacionalidad!="" && tipo!="") {
+			logger.info("Hola "+ usuarioService.buscarDni(Long.parseLong(auth.getName())).getNombre().concat(" listando por FECHA:".concat(fecha.toString()).concat(", listando por NACIONALIDAD").concat(nacionalidad.toString()).concat(" Y listando por TIPO:").concat(tipo).toString()+"!"));
+			model.addAttribute("usuarios", usuarioService.findByFechaAndTipoUsuarioAndNacionalidad(fecha, tipo, nacionalidad));
 		}
 		
 		
@@ -193,9 +197,9 @@ public class UsuarioController {
 		
 		
 		
-		if(dni!=null && fecha!=null && palabraClave!="" && tipo!="") {
-			logger.info("Hola "+ usuarioService.buscarDni(Long.parseLong(auth.getName())).getNombre().concat(" listando por DNI:".concat(dni.toString()).concat(", listando por FECHA:".concat(fecha.toString()).concat(", listando por NACIONALIDAD:".concat(palabraClave.toString()).concat(" Y listando por TIPO:").concat(tipo).toString()+"!"))));
-			model.addAttribute("usuarios", usuarioService.findByDniAndFechaAndNacionalidadAndTipoUsuario(dni, fecha, palabraClave, tipo));
+		if(dni!=null && fecha!=null && nacionalidad!="" && tipo!="") {
+			logger.info("Hola "+ usuarioService.buscarDni(Long.parseLong(auth.getName())).getNombre().concat(" listando por DNI:".concat(dni.toString()).concat(", listando por FECHA:".concat(fecha.toString()).concat(", listando por NACIONALIDAD:".concat(nacionalidad.toString()).concat(" Y listando por TIPO:").concat(tipo).toString()+"!"))));
+			model.addAttribute("usuarios", usuarioService.findByDniAndFechaAndNacionalidadAndTipoUsuario(dni, fecha, nacionalidad, tipo));
 		}
 		
 		
@@ -221,8 +225,12 @@ public class UsuarioController {
 			model.addAttribute("titulo", "Formulario de Usuario");
 			return "form";
 		} else {
+			if(dniDelUsuarioActual!=usuario.getDni()) {
+			if(!usuarioService.existeDni(usuario.getDni())) {
 			usuarioService.save(usuario);
-
+			usuarioService.eliminar(dniDelUsuarioActual);
+			dniDelUsuarioActual=null;
+				
 			if(hasRole("Administrador")) {
 				flash.addFlashAttribute("success", "Usuario creado con exito!");
 				return "redirect:/listar";
@@ -231,6 +239,20 @@ public class UsuarioController {
 				flash.addFlashAttribute("success", "Usuario creado con exito!");
 				return "redirect:/paginaInicio";
 			}
+			}
+			else {
+				model.addAttribute("titulo", "Error: EL dni que esta intentando ingresar ya esta ocupado!");
+				return "form";
+			}
+			}
+			else {
+				usuarioService.save(usuario);
+
+				flash.addFlashAttribute("success", "Usuario editado con exito!");
+				dniDelUsuarioActual=null;
+				return "redirect:/listar";
+			}
+			
 		}
 	}
 
@@ -240,8 +262,9 @@ public class UsuarioController {
 		usuario = usuarioService.buscarDni(dni);
 		model.addAttribute("usuario", usuario);
 		model.addAttribute("titulo", "Editar Usuario");
-		
-
+		if(dniDelUsuarioActual==null){
+			dniDelUsuarioActual=usuario.getDni();
+		}
 		return "form";
 	}
 

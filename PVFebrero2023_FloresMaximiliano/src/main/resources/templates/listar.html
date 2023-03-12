@@ -5,44 +5,75 @@
 <body>
 	<header th:replace="layout/layout :: header"></header>
 
-	<div class="container py-4">
+	<div class="container py-4 ">
 
 		<div class="card border-info"><!-- 4 -->
 			<div class="card-header" th:text=${titulo}></div>
 			<div class="card-body">
-
-
-				<h4 class="card-title">
-					<a class="btn btn-primary" th:href="@{/form}">Crear usuarios</a>
-					<a class="btn btn-primary" th:href="@{/filtrar}">Filtrar usuarios</a>
+				<form class="form-inline" th:action="@{/listar}" style="background-color: lightblue; display: block;border-style: solid; height: 190px; padding: 20px; border-radius: 30px;">
+				<h6>Filtros para realizar una busqueda avanzada: </h6>
+				<div class="row g-3 align-items-center">
+					<div class="col-auto">
+					<label style="width: 200px; text-align: center;" >DNI :</label>
+					</div>
+					<div class="col-auto" style="width: 250px;">
+						<input type="number" name="dni" class="form-control" id="dni" th:value="${dni}" placeholder="Ingrese dni">
+					</div>
+					<div class="col-auto">
+					<label style="width: 200px; text-align: center;">Fecha de nacimiento :</label>
+					</div>
+					<div class="col-auto" style="width: 250px;">
+						<input type="date" name="fecha" class="form-control" id="fecha" th:value="${fecha}">
+					</div>
+					</div>
+					<div class="row g-3 align-items-center">
+					<div class="col-auto">
+					<label style="width: 200px; text-align: center;">Nacionalidad :</label>
+					</div>
+					<div class="col-auto" style="width: 250px;">
+						<input type="text" name="nacionalidad" class="form-control" id="nacionalidad" th:value="${nacionalidad}"placeholder="Ingrese nacionalidad">
+					</div>
+					<div class="col-auto">
+					<label style="width: 200px; text-align: center;">Tipo de usuario :</label>
+					</div>
+					<div class="col-auto" style="width: 250px;">
+						<input type="text" name="tipo" class="form-control" id="tipo" th:value="${tipo}" placeholder="Ingrese tipo de usuario">
+					</div>
+					</div>
+					<div style="text-align: center; padding: 10px;">
+					<input type="submit"  class="btn btn-info border border-primary" style="text-align: center; width: 250px; height: 45px;" value="Aplicar Filtros">
+					</div>
+				</form>
+				<h4 class="card-title py-2">
+					<a class="btn btn-primary btn-lg" th:href="@{/form}">Crear usuarios</a>
 				</h4>
 				
 				<table class="table table-striped table-hover table-bordered border-info" th:if="${!usuarios.isEmpty()}"><!-- 3 -->
 					<thead class="table-info">
 						<!-- columnas -->
 						<tr >
-							<th>DNI</th>
-							<th>Nombre</th>
-							<th>Apellido</th>
-							<th>Fecha de Nacimiento</th>
-							<th>Nacionalidad</th>
-							<th>Tipo de usuario</th>
-							<th>Modificar</th>
-							<th>Eliminar</th>
+							<th style=" text-align: center;">DNI</th>
+							<th style=" text-align: center;">Nombre</th>
+							<th style=" text-align: center;">Apellido</th>
+							<th style=" text-align: center;">Fecha de Nacimiento</th>
+							<th style=" text-align: center;">Nacionalidad</th>
+							<th style=" text-align: center;">Tipo de usuario</th>
+							<th style=" text-align: center;">Modificar</th>
+							<th style=" text-align: center;">Eliminar</th>
 						</tr>
 					</thead>
 					<tbody>
 						<!-- filas -->
 						<tr th:if="${!usuarios.isEmpty()}"th:each="usuario: ${usuarios}">
-							<td th:text="${usuario.dni}"></td>
-							<td th:text="${usuario.nombre}"></td>
-							<td th:text="${usuario.apellido}"></td>
-							<td th:text="${usuario.fecha}"></td>
-							<td th:text="${usuario.nacionalidad}"></td>
-							<td th:text="${usuario.tipoUsuario}"></td>
-							<td><a class="btn btn-success"
+							<td style=" text-align: center;" th:text="${usuario.dni}"></td>
+							<td style=" text-align: center;" th:text="${usuario.nombre}"></td>
+							<td style=" text-align: center;" th:text="${usuario.apellido}"></td>
+							<td style=" text-align: center;" th:text="${usuario.fecha}"></td>
+							<td style=" text-align: center;" th:text="${usuario.nacionalidad}"></td>
+							<td style=" text-align: center;" th:text="${usuario.tipoUsuario}"></td>
+							<td style=" text-align: center;"><a class="btn btn-success"
 								th:href="@{/form/} + ${usuario.dni}">Modificar</a></td>
-							<td><a class="btn btn-danger"
+							<td style=" text-align: center;"><a class="btn btn-danger"
 								th:href="@{/eliminar/} + ${usuario.dni}"
 								onclick="return confirm('Estás seguro que quieres eliminar este usuario?');">Eliminar</a></td>
 						</tr>

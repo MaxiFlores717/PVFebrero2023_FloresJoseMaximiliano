@@ -157,5 +157,11 @@ public class UsuarioServiceIMP implements IUsuarioService {
 		return (List<Usuario>) usuarioDao.findByDniAndFechaAndNacionalidadAndTipoUsuario(dni, fecha, nacionalidad, tipoUsuario);
 	}
 
+	@Override
+	public boolean existeDni(Long dni) {
+		// TODO Auto-generated method stub
+		return usuarioDao.existsById(dni);
+	}
+
 
 }

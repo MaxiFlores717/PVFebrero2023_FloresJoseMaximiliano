@@ -11,6 +11,7 @@ public interface IHabitacionService {
 	public Habitacion buscarCodigo(Long codigo);
 	public void eliminar(Long codigo);
 	public List<Habitacion> findlibres();
+	public boolean existeCodigo(Long codigo);
 	
 
 }

@@ -45,18 +45,27 @@ public class HabitacionServiceIMP implements IHabitacionService {
 
 	@Override
 	public List<Habitacion> findlibres() {
-		// TODO Auto-generated method stub
-		List<Habitacion> habitacion = new ArrayList<>();
-		List<Habitacion> habitacion2 = new ArrayList<>();
-		habitacion = (List<Habitacion>) habitacionDao.findAll();
-		
-		for(int i=0; i<habitacion.size(); i++) {
-			if(habitacion.get(i).getEstado().equals("Libre")) {
-				habitacion2.add(habitacion.get(i));
-			}
-		}
-		return habitacion2;
+//		// TODO Auto-generated method stub
+//		List<Habitacion> habitacion = new ArrayList<>();
+//		List<Habitacion> habitacion2 = new ArrayList<>();
+//		habitacion = (List<Habitacion>) habitacionDao.findAll();
+//		
+//		for(int i=0; i<habitacion.size(); i++) {
+//			if(habitacion.get(i).getEstado().equals("Libre")) {
+//				habitacion2.add(habitacion.get(i));
+//			}
+//		}
+//		return habitacion2;
+		return (List<Habitacion>) habitacionDao.findByEstado("Libre");
 	}
+
+	@Override
+	public boolean existeCodigo(Long codigo) {
+		// TODO Auto-generated method stub
+		return habitacionDao.existsById(codigo);
+	}
+
+
 	
 
 }
