@@ -34,16 +34,16 @@
 					<tbody>
 						<!-- filas -->
 						<tr th:if="${!usuarios.isEmpty()}"th:each="usuario: ${usuarios}">
-							<td th:text="${usuario.DNI}"></td>
+							<td th:text="${usuario.dni}"></td>
 							<td th:text="${usuario.nombre}"></td>
 							<td th:text="${usuario.apellido}"></td>
-							<td th:text="${usuario.FechaDeNacimiento}"></td>
+							<td th:text="${usuario.fecha}"></td>
 							<td th:text="${usuario.nacionalidad}"></td>
 							<td th:text="${usuario.tipoUsuario}"></td>
 							<td><a class="btn btn-success"
-								th:href="@{/form/} + ${usuario.DNI}">Modificar</a></td>
+								th:href="@{/form/} + ${usuario.dni}">Modificar</a></td>
 							<td><a class="btn btn-danger"
-								th:href="@{/eliminar/} + ${usuario.DNI}"
+								th:href="@{/eliminar/} + ${usuario.dni}"
 								onclick="return confirm('Estás seguro que quieres eliminar este usuario?');">Eliminar</a></td>
 						</tr>
 					</tbody>

@@ -21,7 +21,7 @@ public class Usuario implements Serializable{
 	
 	@Id
 	@NotNull
-	private Long DNI;
+	private Long dni;
 	
 	@NotEmpty
 	private String nombre;
@@ -32,7 +32,7 @@ public class Usuario implements Serializable{
 	@Column(name = "fecha_nacimiento")
 	@NotNull
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private LocalDate FechaDeNacimiento;
+	private LocalDate fecha;
 	
 	@NotEmpty
 	private String password;
@@ -44,12 +44,14 @@ public class Usuario implements Serializable{
 	@NotEmpty
 	private String tipoUsuario;
 
-	public Long getDNI() {
-		return DNI;
+	
+
+	public Long getDni() {
+		return dni;
 	}
 
-	public void setDNI(Long dNI) {
-		DNI = dNI;
+	public void setDni(Long dni) {
+		this.dni = dni;
 	}
 
 	public String getNombre() {
@@ -68,12 +70,13 @@ public class Usuario implements Serializable{
 		this.apellido = apellido;
 	}
 
-	public LocalDate getFechaDeNacimiento() {
-		return FechaDeNacimiento;
+
+	public LocalDate getFecha() {
+		return fecha;
 	}
 
-	public void setFechaDeNacimiento(LocalDate fechaDeNacimiento) {
-		FechaDeNacimiento = fechaDeNacimiento;
+	public void setFecha(LocalDate fecha) {
+		this.fecha = fecha;
 	}
 
 	public String getPassword() {
@@ -108,14 +111,13 @@ public class Usuario implements Serializable{
 
 	
 
-	public Usuario(@NotNull Long dNI, @NotEmpty String nombre, @NotEmpty String apellido,
-			@NotNull LocalDate fechaDeNacimiento, @NotEmpty String password, @NotEmpty String nacionalidad,
-			@NotEmpty String tipoUsuario) {
+	public Usuario(@NotNull Long dni, @NotEmpty String nombre, @NotEmpty String apellido, @NotNull LocalDate fecha,
+			@NotEmpty String password, @NotEmpty String nacionalidad, @NotEmpty String tipoUsuario) {
 		super();
-		DNI = dNI;
+		this.dni = dni;
 		this.nombre = nombre;
 		this.apellido = apellido;
-		FechaDeNacimiento = fechaDeNacimiento;
+		this.fecha = fecha;
 		this.password = password;
 		this.nacionalidad = nacionalidad;
 		this.tipoUsuario = tipoUsuario;

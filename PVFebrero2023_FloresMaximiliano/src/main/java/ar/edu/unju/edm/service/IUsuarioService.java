@@ -8,21 +8,27 @@ import ar.edu.unju.edm.models.Usuario;
 public interface IUsuarioService {
 	
 	public List<Usuario> findAll();
-	public List<Usuario> findByFechaNacimiento(LocalDate date);
-	public List<Usuario> findByNacionalidad(String palabraClave);
-	public List<Usuario> findByDNI(Long dni);
-	public List<Usuario> findByDNIandFecha(Long dni, LocalDate fecha);
-	public List<Usuario> findByDNIandFechaandNacionalidad(Long dni, LocalDate fecha, String palabraClave);
-	public List<Usuario> findByDNIFechaNacionalidadTipo(Long dni, LocalDate fecha, String palabraClave, String tipo);
-	public List<Usuario> findByDNITipo(Long dni, String tipo);
-	public List<Usuario> findByFechaTipo(LocalDate fecha, String tipo);
-	public List<Usuario> findByDNIandNacionalidad(Long dni, String palabraClave);
-	public List<Usuario> findByFechaAndNacionalidad(LocalDate fecha, String palabraClave);
-	public List<Usuario> findByFechaNacionalidadTipo(LocalDate fecha, String palabraClave, String tipo);
-	public List<Usuario> findByNacionalidadTipo(String palabraClave, String tipo);
-	public List<Usuario> findByTipo(String tipo);
+	//
+	public List<Usuario> findByDni(Long dni);
+	public List<Usuario> findByNacionalidad(String nacionalidad);
+	public List<Usuario> findByTipoUsuario(String tipoUsuario);
+	public List<Usuario> findByFecha(LocalDate fecha);
 	
-	public void save(Usuario usuario);
+	 public List<Usuario> findByNacionalidadAndDni(String nacionalidad, Long dni);
+	public List<Usuario> findByDniAndTipoUsuario(Long dni, String tipoUsuario);
+	public List<Usuario> findByDniAndFecha(Long dni, LocalDate fecha);
+	
+	public List<Usuario> findByFechaAndNacionalidad(LocalDate fecha, String nacionalidad);
+	public List<Usuario> findByFechaAndTipoUsuario(LocalDate fecha, String tipoUsuario);
+
+	public List<Usuario> findByNacionalidadAndTipoUsuario(String nacionalidad, String tipoUsuario);
+	
+	public List<Usuario> findByDniAndNacionalidadAndTipoUsuario(Long dni, String nacionalidad, String tipoUsuario);
+	public List<Usuario> findByDniAndFechaAndNacionalidad(Long dni, LocalDate fecha, String nacionalidad);
+	public List<Usuario> findByDniAndFechaAndTipoUsuario(Long dni, LocalDate fecha, String tipoUsuario);
+	public List<Usuario> findByFechaAndTipoUsuarioAndNacionalidad(LocalDate fecha, String tipoUsuario, String nacionalidad);
+	
+	public List<Usuario> findByDniAndFechaAndNacionalidadAndTipoUsuario(Long dni, LocalDate fecha, String nacionalidad, String tipoUsuario);	public void save(Usuario usuario);
 	public Usuario buscarDni(Long dni);
 	public void eliminar(Long DNI);
 	public List<Usuario> findHuesped();
