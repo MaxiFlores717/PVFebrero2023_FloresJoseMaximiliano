@@ -27,6 +27,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ar.edu.unju.edm.dao.IUsuarioDao;
+import ar.edu.unju.edm.models.Habitacion;
 import ar.edu.unju.edm.models.Usuario;
 import ar.edu.unju.edm.service.IUsuarioService;
 
@@ -73,7 +74,7 @@ public class UsuarioController {
 	public String listar(Model model , Authentication authentication, @Param("dni") Long dni,
 			@Param("fecha") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fecha, 
 			@Param("nacionalidad") String nacionalidad,
-			@Param("tipo") String tipo) {
+			@Param("tipo") String tipo) throws Exception {
 				
 		if(authentication != null) {
 			logger.info("Hola usuario autenticado, tu username es: ".concat(authentication.getName()));
@@ -211,27 +212,42 @@ public class UsuarioController {
 			model.addAttribute("titulo", "Formulario de Usuario");
 			return "form";
 		} else {
-			usuarioService.save(usuario);
+			try {
+				usuarioService.buscarDni(usuario.getDni());
+				model.addAttribute("mensajeError", "El DNI que intenta ingresar ya esta ocupado!");
+				model.addAttribute("titulo", "Formulario de Usuario");
+				return "form";
+			} catch (Exception e) {
+				// TODO: handle exception
+				usuarioService.save(usuario);
 				
-			if(hasRole("Administrador")) {
-				flash.addFlashAttribute("success", "Usuario creado con exito!");
-				return "redirect:/listar";
-			}
-			else {
-				flash.addFlashAttribute("success", "Usuario creado con exito!");
-				return "redirect:/paginaInicio";
+				if(hasRole("Administrador")) {
+					flash.addFlashAttribute("success", "Usuario creado con exito!");
+					return "redirect:/listar";
+				}
+				else {
+					flash.addFlashAttribute("success", "Usuario creado con exito!");
+					return "redirect:/paginaInicio";
+				}
 			}
 			}
 			
 	}
 
 	@RequestMapping(value = "/form/{dni}")
-	public String modificar(@PathVariable(value = "dni") Long dni, Model model) {
+	public String modificar(@PathVariable(value = "dni") Long dni, Model model, RedirectAttributes flash) throws Exception {
 		Usuario usuario = null;
-		usuario = usuarioService.buscarDni(dni);
-		model.addAttribute("usuario", usuario);
-		model.addAttribute("titulo", "Editar Usuario");		
-		return "formModificar";
+		try {
+			usuario = usuarioService.buscarDni(dni);
+			model.addAttribute("usuario", usuario);
+			model.addAttribute("titulo", "Editar Usuario");		
+			return "formModificar";
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			flash.addFlashAttribute("error", "El Usuario que intenta modficar NO existe!");
+			return "redirect:/listar";
+		}
 	}
 
 	@RequestMapping(value = "/formModificar", method = RequestMethod.POST)
@@ -251,10 +267,19 @@ public class UsuarioController {
 
 
 	@RequestMapping(value = "/eliminar/{dni}")
-	public String eliminar(@PathVariable(value = "dni") Long dni, RedirectAttributes flash) {
-		usuarioService.eliminar(dni);
-		flash.addFlashAttribute("error", "Usuario ha sido eliminado con exito!");
-		return "redirect:/listar";
+	public String eliminar(@PathVariable(value = "dni") Long dni, RedirectAttributes flash)	{
+		
+		try {
+			usuarioService.buscarDni(dni);
+			usuarioService.eliminar(dni);
+			flash.addFlashAttribute("error", "Usuario ha sido eliminado con exito!");
+			return "redirect:/listar";
+		} catch (Exception e) {
+			// TODO: handle exception
+			flash.addFlashAttribute("error", "El Usuario que intenta eliminar NO existe!");
+			return "redirect:/listar";
+		}
+			
 	}
 	
 	

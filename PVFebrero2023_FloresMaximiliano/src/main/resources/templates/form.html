@@ -9,6 +9,7 @@
 			<div class="card-header" th:text=${titulo}></div>
 			<div class="card-body">
 				<h1 class="text-primary border border.success" th:text=${titulo}></h1>
+				<div class="alert alert-danger" th:if="${mensajeError}" th:text="${mensajeError}">Name Error</div>
 
 				<div th:object="${usuario}">
 					<ul th:if="${#fields.hasErrors('*')}" class="alert alert-danger" >

@@ -9,11 +9,14 @@
 			<div class="card-header" th:text=${titulo}></div>
 			<div class="card-body">
 				<h1 class="text-primary border border.success" th:text=${titulo}></h1>
-
+				
 			
 				<form th:action="@{/formModificar}" th:object="${usuario}" method="post">
-					<input type="hidden" class="form-control"th:field="*{dni}" >
-					<div class="form-group arow">
+				
+				<input type="hidden" class="form-control" th:field="*{dni}">
+				
+				
+				<div class="form-group arow">
 						<label class="col-sm-2 col-form-label">Nombre</label>
 						<div class="col-sm-6">
 							<input type="text" th:field="*{nombre}" class="form-control"/>

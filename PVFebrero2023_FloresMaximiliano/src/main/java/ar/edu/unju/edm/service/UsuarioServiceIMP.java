@@ -38,10 +38,10 @@ public class UsuarioServiceIMP implements IUsuarioService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public Usuario buscarDni(Long dni) {
+	public Usuario buscarDni(Long dni) throws Exception{
 		// TODO Auto-generated method stub
 
-		return usuarioDao.findById(dni).orElse(null);
+		return usuarioDao.findById(dni).orElseThrow(()-> new Exception("El usuario no existe"));
 	}
 
 	@Override

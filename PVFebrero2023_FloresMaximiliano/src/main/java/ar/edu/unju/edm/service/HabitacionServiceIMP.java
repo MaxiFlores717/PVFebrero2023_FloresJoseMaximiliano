@@ -31,10 +31,10 @@ public class HabitacionServiceIMP implements IHabitacionService {
 	}
 
 	@Override
-	public Habitacion buscarCodigo(Long codigo) {
+	public Habitacion buscarCodigo(Long codigo) throws Exception{
 		// TODO Auto-generated method stub
 		
-		return habitacionDao.findById(codigo).orElse(null);
+		return habitacionDao.findById(codigo).orElseThrow(()-> new Exception("la Habitacion no existe"));
 	}
 
 	@Override

@@ -64,10 +64,20 @@ public class HabitacionController {
 			model.addAttribute("titulo", "Formulario de Habitación");
 			return "formHabitacion";
 		} else {
-					habitacionService.save(habitacion);
-
-					flash.addFlashAttribute("success", "Habitación creada con exito!");
-					return "redirect:/listarTodas";			
+			try {
+				habitacionService.buscarCodigo(habitacion.getCodigo());
+				
+				model.addAttribute("mensajeError", "El codigo que intenta ingresar ya esta ocupado!");
+				model.addAttribute("titulo", "Formulario de Usuario");
+				return "formHabitacion";
+			} catch (Exception e) {
+				// TODO: handle exception
+				habitacionService.save(habitacion);
+				flash.addFlashAttribute("success", "Habitación creada con exito!");
+				return "redirect:/listarTodas";
+			}
+					
+							
 		}
 	}
 	
@@ -116,14 +126,18 @@ public class HabitacionController {
 	}
 
 	@RequestMapping(value = "/formHabitacion/{codigo}")
-	public String modificar(@PathVariable(value = "codigo") Long codigo, Model model) {
+	public String modificar(@PathVariable(value = "codigo") Long codigo, Model model, RedirectAttributes flash){
 		Habitacion habitacion = null;
-		habitacion = habitacionService.buscarCodigo(codigo);
-		model.addAttribute("habitacion", habitacion);
-		model.addAttribute("titulo", "Editar Habitacion");
-		
-
-		return "habitacionModificar";
+		try {
+			habitacion = habitacionService.buscarCodigo(codigo);
+			model.addAttribute("habitacion", habitacion);
+			model.addAttribute("titulo", "Editar Habitacion");
+			return "habitacionModificar";
+		} catch (Exception e) {
+			// TODO: handle exception
+			flash.addFlashAttribute("error", "El Habitacion que intenta modficar NO existe!");
+			return "redirect:/listarTodas";
+		}
 	}
 	@RequestMapping(value = "/habitacionModificar", method = RequestMethod.POST)
 	public String modificar(@Valid Habitacion habitacion, BindingResult result, Model model, RedirectAttributes flash, Authentication authentication) {
@@ -141,9 +155,16 @@ public class HabitacionController {
 
 	@RequestMapping(value = "/eliminarHabitacion/{codigo}")
 	public String eliminar(@PathVariable(value = "codigo") Long codigo, RedirectAttributes flash) {
-		habitacionService.eliminar(codigo);
-		flash.addFlashAttribute("error", "La Habitacion ha sido eliminada con exito!");
-		return "redirect:/listarTodas";
+		try {
+			habitacionService.buscarCodigo(codigo);
+			habitacionService.eliminar(codigo);
+			flash.addFlashAttribute("error", "La Habitacion ha sido eliminada con exito!");
+			return "redirect:/listarTodas";
+		} catch (Exception e) {
+			// TODO: handle exception
+			flash.addFlashAttribute("error", "La Habitacion que intenta eliminar NO existe!");
+			return "redirect:/listarTodas";
+		}
 	}
 	
 	
