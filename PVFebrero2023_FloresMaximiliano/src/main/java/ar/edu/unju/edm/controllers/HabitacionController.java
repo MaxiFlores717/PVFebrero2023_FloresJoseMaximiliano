@@ -1,3 +1,4 @@
+
 package ar.edu.unju.edm.controllers;
 
 import java.util.Collection;
@@ -21,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ar.edu.unju.edm.dao.IUsuarioDao;
 import ar.edu.unju.edm.models.Habitacion;
+import ar.edu.unju.edm.models.Usuario;
 import ar.edu.unju.edm.service.IHabitacionService;
 
 
@@ -30,7 +32,6 @@ public class HabitacionController {
 	
 	protected final Log logger = LogFactory.getLog(this.getClass());
 	
-	Long codigoDelUsuarioActual;
 	
 	@Autowired
 	private IHabitacionService habitacionService;
@@ -63,28 +64,10 @@ public class HabitacionController {
 			model.addAttribute("titulo", "Formulario de Habitación");
 			return "formHabitacion";
 		} else {
-			if(codigoDelUsuarioActual!=habitacion.getCodigo()) {
-				if((!habitacionService.existeCodigo(habitacion.getCodigo()))) {
 					habitacionService.save(habitacion);
-					habitacionService.eliminar(codigoDelUsuarioActual);
-					codigoDelUsuarioActual=null;
 
 					flash.addFlashAttribute("success", "Habitación creada con exito!");
-					return "redirect:/listarTodas";
-			}
-			else {
-				model.addAttribute("titulo", "Error: El Código que esta intentando ingresar ya esta ocupado!");
-				return "formHabitacion";
-			}
-			}
-			else {
-				habitacionService.save(habitacion);
-
-				flash.addFlashAttribute("success", "Habitación editada con exito!");
-				codigoDelUsuarioActual=null;
-				return "redirect:/listarTodas";
-			}
-			
+					return "redirect:/listarTodas";			
 		}
 	}
 	
@@ -139,11 +122,21 @@ public class HabitacionController {
 		model.addAttribute("habitacion", habitacion);
 		model.addAttribute("titulo", "Editar Habitacion");
 		
-		if(codigoDelUsuarioActual==null) {
-			codigoDelUsuarioActual=habitacion.getCodigo();
-		}
 
-		return "formHabitacion";
+		return "habitacionModificar";
+	}
+	@RequestMapping(value = "/habitacionModificar", method = RequestMethod.POST)
+	public String modificar(@Valid Habitacion habitacion, BindingResult result, Model model, RedirectAttributes flash, Authentication authentication) {
+		
+		if (result.hasErrors()) {
+			model.addAttribute("titulo", "Editar Habitación");
+			return "habitacionModificar";
+		} else {
+			habitacionService.save(habitacion);
+				flash.addFlashAttribute("success", "Habitación editado con exito!");
+				return "redirect:/listarTodas";
+			}
+			
 	}
 
 	@RequestMapping(value = "/eliminarHabitacion/{codigo}")

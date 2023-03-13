@@ -18,9 +18,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ar.edu.unju.edm.dao.IUsuarioDao;
@@ -37,26 +40,9 @@ public class UsuarioController {
 	@Autowired
 	private IUsuarioService usuarioService;
 	
-	private boolean usuarioInicial = false;
-	
-	Long dniDelUsuarioActual;
 	
 	@RequestMapping(value = {"/paginaInicio", "/"})
 	public String Inicio() {
-		// prueba
-		if (usuarioInicial == false) {
-			usuarioInicial = true;
-			Usuario usuario = new Usuario();
-			usuario.setDni((long) 10);
-			usuario.setApellido("Flores");
-			usuario.setNacionalidad("Argentino");
-			usuario.setFecha(LocalDate.parse("2017-08-28"));
-			usuario.setNombre("Maxi");
-			usuario.setPassword("1234");
-			usuario.setTipoUsuario("Administrador");		
-			
-			usuarioService.save(usuario);
-		}
 		return "paginaInicio";
 	}
 	
@@ -225,11 +211,7 @@ public class UsuarioController {
 			model.addAttribute("titulo", "Formulario de Usuario");
 			return "form";
 		} else {
-			if(dniDelUsuarioActual!=usuario.getDni()) {
-			if(!usuarioService.existeDni(usuario.getDni())) {
 			usuarioService.save(usuario);
-			usuarioService.eliminar(dniDelUsuarioActual);
-			dniDelUsuarioActual=null;
 				
 			if(hasRole("Administrador")) {
 				flash.addFlashAttribute("success", "Usuario creado con exito!");
@@ -240,20 +222,7 @@ public class UsuarioController {
 				return "redirect:/paginaInicio";
 			}
 			}
-			else {
-				model.addAttribute("titulo", "Error: EL dni que esta intentando ingresar ya esta ocupado!");
-				return "form";
-			}
-			}
-			else {
-				usuarioService.save(usuario);
-
-				flash.addFlashAttribute("success", "Usuario editado con exito!");
-				dniDelUsuarioActual=null;
-				return "redirect:/listar";
-			}
 			
-		}
 	}
 
 	@RequestMapping(value = "/form/{dni}")
@@ -261,12 +230,25 @@ public class UsuarioController {
 		Usuario usuario = null;
 		usuario = usuarioService.buscarDni(dni);
 		model.addAttribute("usuario", usuario);
-		model.addAttribute("titulo", "Editar Usuario");
-		if(dniDelUsuarioActual==null){
-			dniDelUsuarioActual=usuario.getDni();
-		}
-		return "form";
+		model.addAttribute("titulo", "Editar Usuario");		
+		return "formModificar";
 	}
+
+	@RequestMapping(value = "/formModificar", method = RequestMethod.POST)
+	public String modificar(@Valid Usuario usuario, BindingResult result, Model model, RedirectAttributes flash, Authentication authentication) {
+		
+		if (result.hasErrors()) {
+			model.addAttribute("titulo", "Editar Usuario");
+			return "formModificar";
+		} else {
+			usuarioService.save(usuario);
+				
+				flash.addFlashAttribute("success", "Usuario editado con exito!");
+				return "redirect:/listar";
+			}
+			
+	}
+
 
 	@RequestMapping(value = "/eliminar/{dni}")
 	public String eliminar(@PathVariable(value = "dni") Long dni, RedirectAttributes flash) {

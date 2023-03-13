@@ -10,26 +10,13 @@
 			<div class="card-body">
 				<h1 class="text-primary border border.success" th:text=${titulo}></h1>
 
-				<div th:object="${usuario}">
-					<ul th:if="${#fields.hasErrors('*')}" class="alert alert-danger" >
-						<li th:each="err: ${#fields.errors('*')}" th:text="${err}"></li>
-					</ul>
-				</div>
-
 			
-				<form th:action="@{/form}" th:object="${usuario}" method="post">
-					<div class="form-group arow">
-						<label class="col-sm-2 col-form-label ">DNI</label>
-						<div class="col-sm-6">
-							<input type="number" th:field="*{dni}"class="form-control" /> <small
-								class="form-text text-danger"
-								th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}"></small>
-						</div>
-					</div>
+				<form th:action="@{/formModificar}" th:object="${usuario}" method="post">
+					<input type="hidden" class="form-control"th:field="*{dni}" >
 					<div class="form-group arow">
 						<label class="col-sm-2 col-form-label">Nombre</label>
 						<div class="col-sm-6">
-							<input type="text" th:field="*{nombre}" class="form-control" />
+							<input type="text" th:field="*{nombre}" class="form-control"/>
 							<small class="form-text text-danger"
 								th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></small>
 						</div>
@@ -89,7 +76,7 @@
 					
 					<div class="form-group arow">
 						<div class="col-sm-6 py-4">
-							<input type="submit" value="Crear Usuario"
+							<input type="submit" value="Aplicar Cambios"
 								class="btn btn-outline-danger" />
 								<a class="btn btn-outline-info" th:href="@{/}">Volver</a>
 						</div>
